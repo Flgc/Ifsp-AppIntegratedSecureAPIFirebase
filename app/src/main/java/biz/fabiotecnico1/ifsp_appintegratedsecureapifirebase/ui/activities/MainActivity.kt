@@ -27,6 +27,30 @@ class MainActivity : AppCompatActivity() {
         setupUI()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_profile -> {
+                startActivity(Intent(this, ProfileActivity::class.java))
+                true
+            }
+            R.id.action_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+            R.id.action_logout -> {
+                authRepository.logout()
+                navigateToLogin()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun setupUI() {
         binding.tvWelcome.text = "Bem-vindo, ${authRepository.getUserName() ?: "Usuário"}"
 
